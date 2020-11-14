@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 import { Typography } from '@/theme'
 
-const StyledFooter = styled.div`
+const StyledFooter = styled.footer`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -13,7 +13,7 @@ const StyledFooter = styled.div`
 
 const Text = styled(Typography)``
 
-export const Footer = () => {
+export const Footer: FC = () => {
   return (
     <StyledFooter>
       <Text>Made with React</Text>

@@ -7,6 +7,7 @@ import EmailIcon from '@material-ui/icons/Email'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
+import StylesProvider from '@material-ui/styles/StylesProvider'
 
 export const lightTheme = {
   text: 'white',
@@ -20,4 +21,4 @@ export const theme: DefaultTheme = {
   colors: { ...lightTheme },
 }
 
-export { CssBaseline, MuiAppBar, Button, GitHubIcon, EmailIcon, Box, Typography, Divider }
+export { CssBaseline, MuiAppBar, Button, GitHubIcon, EmailIcon, Box, Typography, Divider, StylesProvider }
