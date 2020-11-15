@@ -12,7 +12,7 @@ export const App: FC = () => {
   const [currentTheme, setCurrentTheme] = useState(theme)
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 4000)
+    const timer = setTimeout(() => setLoading(false), 3900)
     return () => clearTimeout(timer)
   }, [])
 

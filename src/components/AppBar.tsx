@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router'
-import { Switch, MuiAppBar, Button, GitHubIcon, EmailIcon, Box, Typography, Divider } from '@/theme'
+import { Avatar, Switch, MuiAppBar, Button, GitHubIcon, EmailIcon, Box, Typography, Divider } from '@/theme'
 import { Context } from '@/context'
 
 const StyledDivider = styled(Divider)`
@@ -21,19 +21,18 @@ const RouteButtons = styled(Box)`
   display: flex;
 `
 
-const Name = styled(Box)`
+const NameAndLogo = styled(Box)`
   display: flex;
   align-items: center;
-`
-
-const StyledHomeButton = styled(Typography)`
-  padding: 0.8rem;
-  margin-left: 0.8rem;
-  font-family: 'Caveat', cursive;
-  font-size: 2rem;
   :hover {
     cursor: pointer;
   }
+`
+
+const StyledName = styled(Typography)`
+  padding: 0.8rem;
+  font-family: 'Caveat', cursive;
+  font-size: 2rem;
 `
 
 const StyledAboutButton = styled(Button)`
@@ -66,15 +65,22 @@ const SwitchContainer = styled(Box)`
   align-items: center;
 `
 
+const StyledAvatar = styled(Avatar)`
+  background: purple;
+  margin-left: 0.8rem;
+  font-family: 'Caveat', cursive;
+`
+
 export const AppBar: FC = () => {
   const navigate = useNavigate()
   const { toggleDark } = useContext(Context)
 
   return (
     <StyledAppBar position="static">
-      <Name>
-        <StyledHomeButton onClick={() => navigate('/')}>Christopher Laeri</StyledHomeButton>
-      </Name>
+      <NameAndLogo onClick={() => navigate('/')}>
+        <StyledAvatar>CL</StyledAvatar>
+        <StyledName>Christopher Laeri</StyledName>
+      </NameAndLogo>
       <RouteButtons>
         <StyledAboutButton onClick={() => navigate('about')}>About</StyledAboutButton>
         <StyledPortfolioButton onClick={() => navigate('portfolio')}>Portfolio</StyledPortfolioButton>

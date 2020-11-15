@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import Switch from '@material-ui/core/Switch'
+import Avatar from '@material-ui/core/Avatar'
 import StylesProvider from '@material-ui/styles/StylesProvider'
 
 export const lightTheme = {
@@ -26,4 +27,16 @@ export const darkTheme = {
 
 export const theme: DefaultTheme = { ...lightTheme }
 
-export { Switch, CssBaseline, MuiAppBar, Button, GitHubIcon, EmailIcon, Box, Typography, Divider, StylesProvider }
+export {
+  Avatar,
+  Switch,
+  CssBaseline,
+  MuiAppBar,
+  Button,
+  GitHubIcon,
+  EmailIcon,
+  Box,
+  Typography,
+  Divider,
+  StylesProvider,
+}
