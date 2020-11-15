@@ -1,37 +1,47 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useLayoutEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { About, Portfolio, Contact, Home, Loading } from '@/views'
-import { theme, CssBaseline, StylesProvider } from '@/theme'
+import { theme, CssBaseline, StylesProvider, darkTheme } from '@/theme'
 import { AppBar, Footer } from '@/components'
+import { ContextProvider } from '@/context'
 
 export const App: FC = () => {
   const [loading, setLoading] = useState(true)
+  const [dark, setDark] = useState(false)
+  const [currentTheme, setCurrentTheme] = useState(theme)
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 5000)
+    const timer = setTimeout(() => setLoading(false), 4000)
     return () => clearTimeout(timer)
   }, [])
 
+  useLayoutEffect(() => {
+    if (dark) setCurrentTheme({ ...darkTheme })
+    else setCurrentTheme(theme)
+  }, [dark])
+
   return (
     <StylesProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        {loading ? (
-          <Loading loading={loading} />
-        ) : (
-          <Router>
-            <CssBaseline />
-            <AppBar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-            <Footer />
-          </Router>
-        )}
-      </ThemeProvider>
+      <ContextProvider value={{ dark, toggleDark: () => setDark(!dark) }}>
+        <ThemeProvider theme={currentTheme}>
+          <CssBaseline />
+          {loading ? (
+            <Loading loading={loading} />
+          ) : (
+            <BrowserRouter>
+              <AppBar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+              <Footer />
+            </BrowserRouter>
+          )}
+        </ThemeProvider>
+      </ContextProvider>
     </StylesProvider>
   )
 }

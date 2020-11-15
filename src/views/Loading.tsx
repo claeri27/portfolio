@@ -8,6 +8,7 @@ const StyledBox = styled(Box)`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background: ${({ theme }) => theme.colors.background};
 `
 
 interface Props {

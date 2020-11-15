@@ -1,7 +1,8 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router'
-import { MuiAppBar, Button, GitHubIcon, EmailIcon, Box, Typography, Divider } from '@/theme'
+import { Switch, MuiAppBar, Button, GitHubIcon, EmailIcon, Box, Typography, Divider } from '@/theme'
+import { Context } from '@/context'
 
 const StyledDivider = styled(Divider)`
   background: gray;
@@ -36,30 +37,38 @@ const StyledHomeButton = styled(Typography)`
 `
 
 const StyledAboutButton = styled(Button)`
+  color: ${({ theme }) => theme.colors.text};
   padding: 0.8rem;
-  color: white;
 `
 
 const StyledPortfolioButton = styled(Button)`
+  color: ${({ theme }) => theme.colors.text};
   padding: 0.8rem;
-  color: white;
 `
 
 const StyledContactButton = styled(Button)`
+  color: ${({ theme }) => theme.colors.text};
   padding: 0.8rem;
-  color: white;
 `
 
 const GithubContainer = styled(Button)`
-  color: white;
+  color: ${({ theme }) => theme.colors.text};
 `
 
 const EmailContainer = styled(Button)`
-  color: white;
+  color: ${({ theme }) => theme.colors.text};
+`
+
+const SwitchContainer = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `
 
 export const AppBar: FC = () => {
   const navigate = useNavigate()
+  const { toggleDark } = useContext(Context)
 
   return (
     <StyledAppBar position="static">
@@ -70,6 +79,10 @@ export const AppBar: FC = () => {
         <StyledAboutButton onClick={() => navigate('about')}>About</StyledAboutButton>
         <StyledPortfolioButton onClick={() => navigate('portfolio')}>Portfolio</StyledPortfolioButton>
         <StyledContactButton onClick={() => navigate('contact')}>Contact</StyledContactButton>
+        <StyledDivider orientation="vertical" flexItem />
+        <SwitchContainer>
+          <Switch onChange={() => toggleDark()} />
+        </SwitchContainer>
         <StyledDivider orientation="vertical" flexItem />
         <GithubContainer>
           <GitHubIcon />
