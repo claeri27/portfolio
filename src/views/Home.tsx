@@ -1,29 +1,31 @@
-import React, { FC } from 'react'
-import styled from 'styled-components'
-import { Box } from '@/theme'
+import React, { FC, useEffect, useState } from 'react'
+import styled, { useTheme } from 'styled-components'
+import { Box, Fade } from '@/theme/material'
+import { Loading } from '@/views'
 
-const ContainerOne = styled(Box)`
+const LoadingContainer = styled(Box)`
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 40rem;
-  background: red;
-`
-
-const ContainerTwo = styled(ContainerOne)`
-  background: orange;
-`
-
-const ContainerThree = styled(ContainerOne)`
-  background: green;
+  background: ${({ theme }) => theme.colors.background};
 `
 
 export const Home: FC = () => {
+  const [loading, setLoading] = useState(true)
+  const { transitions } = useTheme()
+  const { enter, exit } = transitions.loading.timeout
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), transitions.loading.in)
+    return () => clearTimeout(timer)
+  })
+
   return (
     <>
-      <ContainerOne>This is home 1</ContainerOne>
-      <ContainerTwo>This is home 2</ContainerTwo>
-      <ContainerThree>This is home 3</ContainerThree>
+      <Fade in={loading} timeout={{ enter, exit }}>
+        <LoadingContainer>
+          <Loading />
+        </LoadingContainer>
+      </Fade>
     </>
   )
 }

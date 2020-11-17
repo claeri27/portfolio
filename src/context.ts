@@ -6,5 +6,3 @@ interface Props {
 }
 
 export const Context = createContext<Props>({ dark: false, toggleDark: () => null })
-export const ContextProvider = Context.Provider
-export const ContextConsumer = Context.Consumer

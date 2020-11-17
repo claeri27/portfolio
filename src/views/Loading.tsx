@@ -1,18 +1,16 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { Box } from '@/theme'
+import { Box } from '@/theme/material'
 import HashLoader from 'react-spinners/HashLoader'
 
 const StyledBox = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: ${({ theme }) => theme.colors.background};
+  position: absolute;
+  top: 40%;
+  transition: opacity 3s ease-in-out;
 `
 
 interface Props {
-  loading: boolean
+  loading?: boolean
 }
 
 export const Loading: FC<Props> = ({ loading }) => {

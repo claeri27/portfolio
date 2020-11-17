@@ -1,34 +1,39 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from 'react'
+import React, { FC, useLayoutEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { About, Portfolio, Contact, Home, Loading } from '@/views'
-import { theme, CssBaseline, StylesProvider, darkTheme } from '@/theme'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { About, Contact, Home, Portfolio } from '@/views'
+import { darkTheme, theme } from '@/theme'
+import { CssBaseline, StylesProvider } from '@/theme/material'
 import { AppBar, Footer } from '@/components'
-import { ContextProvider } from '@/context'
+import { Context } from '@/context'
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 
 export const App: FC = () => {
-  const [loading, setLoading] = useState(true)
   const [dark, setDark] = useState(false)
   const [currentTheme, setCurrentTheme] = useState(theme)
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3900)
-    return () => clearTimeout(timer)
-  }, [])
-
   useLayoutEffect(() => {
-    if (dark) setCurrentTheme({ ...darkTheme })
+    if (dark) setCurrentTheme({ ...currentTheme, ...darkTheme })
     else setCurrentTheme(theme)
   }, [dark])
 
+  const muiTheme = createMuiTheme({
+    overrides: {
+      MuiCssBaseline: {
+        '@global': {
+          html: { background: currentTheme.colors.background },
+        },
+      },
+    },
+  })
+
   return (
     <StylesProvider injectFirst>
-      <ContextProvider value={{ dark, toggleDark: () => setDark(!dark) }}>
-        <ThemeProvider theme={currentTheme}>
-          <CssBaseline />
-          {loading ? (
-            <Loading loading={loading} />
-          ) : (
+      <Context.Provider value={{ dark, toggleDark: () => setDark(!dark) }}>
+        <MuiThemeProvider theme={muiTheme}>
+          <ThemeProvider theme={currentTheme}>
+            <CssBaseline />
             <BrowserRouter>
               <AppBar />
               <Routes>
@@ -39,9 +44,9 @@ export const App: FC = () => {
               </Routes>
               <Footer />
             </BrowserRouter>
-          )}
-        </ThemeProvider>
-      </ContextProvider>
+          </ThemeProvider>
+        </MuiThemeProvider>
+      </Context.Provider>
     </StylesProvider>
   )
 }

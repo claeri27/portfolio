@@ -6,5 +6,26 @@ declare module 'styled-components' {
       text: string
       background: string
     }
+    height: {
+      appBar: string
+      footer: string
+    }
+    transitions: {
+      appBar: {
+        in: number
+        timeout: number
+      }
+      footer: {
+        in: number
+        timeout: number
+      }
+      loading: {
+        in: number
+        timeout: {
+          enter: number
+          exit: number
+        }
+      }
+    }
   }
 }
