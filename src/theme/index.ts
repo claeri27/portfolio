@@ -16,6 +16,10 @@ export const darkTheme = {
 
 export const theme: DefaultTheme = {
   ...lightTheme,
+  breakpoints: {
+    desktop: '(min-width: 750px)',
+    tablet: '(min-width: 530px)',
+  },
   height: {
     appBar: '3.5rem',
     footer: '3rem',

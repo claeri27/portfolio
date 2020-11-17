@@ -10,11 +10,13 @@ import {
   EmailIcon,
   GitHubIcon,
   IconButton,
+  MenuIcon,
   MoonIcon,
   MuiAppBar,
   Slide,
   SunIcon,
   Typography,
+  useMediaQuery,
 } from '@/theme/material'
 const { SNOWPACK_PUBLIC_GITHUB_URL, SNOWPACK_PUBLIC_EMAIL_URL } = import.meta.env
 
@@ -46,22 +48,37 @@ const NameAndLogo = styled(Box)`
 const StyledName = styled(Typography)`
   padding: 0.8rem;
   font-family: 'Caveat', cursive;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    font-size: 2rem;
+  }
 `
 
 const StyledAboutButton = styled(Button)`
   color: ${({ theme }) => theme.colors.text};
-  padding: 0.8rem;
+  font-size: 0.7rem;
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
 `
 
 const StyledPortfolioButton = styled(Button)`
   color: ${({ theme }) => theme.colors.text};
-  padding: 0.8rem;
+  font-size: 0.7rem;
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
 `
 
 const StyledContactButton = styled(Button)`
   color: ${({ theme }) => theme.colors.text};
-  padding: 0.8rem;
+  font-size: 0.7rem;
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
 `
 
 const SocialMediaContainer = styled.a`
@@ -93,7 +110,9 @@ const StyledAvatar = styled(Avatar)`
 export const AppBar: FC = () => {
   const [checked, setChecked] = useState(false)
   const { dark, toggleDark } = useContext(Context)
-  const { transitions } = useTheme()
+  const { transitions, breakpoints } = useTheme()
+  const isDesktop = useMediaQuery(breakpoints.desktop)
+  const isTablet = useMediaQuery(breakpoints.tablet)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -108,23 +127,41 @@ export const AppBar: FC = () => {
           <StyledAvatar>CL</StyledAvatar>
           <StyledName>Christopher Laeri</StyledName>
         </NameAndLogo>
-        <RouteButtons>
-          <StyledAboutButton onClick={() => navigate('about')}>About</StyledAboutButton>
-          <StyledPortfolioButton onClick={() => navigate('portfolio')}>Portfolio</StyledPortfolioButton>
-          <StyledContactButton onClick={() => navigate('contact')}>Contact</StyledContactButton>
-          <StyledDivider orientation="vertical" flexItem />
-          <StyledIconButton onClick={() => toggleDark()}>{dark ? <MoonIcon /> : <SunIcon />}</StyledIconButton>
-          <StyledIconButton>
-            <SocialMediaContainer href={SNOWPACK_PUBLIC_GITHUB_URL}>
-              <GitHubIcon />
-            </SocialMediaContainer>
-          </StyledIconButton>
+        {isDesktop && (
+          <RouteButtons>
+            <StyledAboutButton onClick={() => navigate('about')}>About</StyledAboutButton>
+            <StyledPortfolioButton onClick={() => navigate('portfolio')}>Portfolio</StyledPortfolioButton>
+            <StyledContactButton onClick={() => navigate('contact')}>Contact</StyledContactButton>
+            <StyledDivider orientation="vertical" flexItem />
+            <StyledIconButton onClick={() => toggleDark()}>{dark ? <MoonIcon /> : <SunIcon />}</StyledIconButton>
+            <StyledIconButton>
+              <SocialMediaContainer href={SNOWPACK_PUBLIC_GITHUB_URL}>
+                <GitHubIcon />
+              </SocialMediaContainer>
+            </StyledIconButton>
+            <StyledIconButton style={{ marginRight: '.5rem' }}>
+              <SocialMediaContainer href={SNOWPACK_PUBLIC_EMAIL_URL}>
+                <EmailIcon />
+              </SocialMediaContainer>
+            </StyledIconButton>
+          </RouteButtons>
+        )}
+        {isTablet && !isDesktop && (
+          <RouteButtons>
+            <StyledAboutButton onClick={() => navigate('about')}>About</StyledAboutButton>
+            <StyledPortfolioButton onClick={() => navigate('portfolio')}>Portfolio</StyledPortfolioButton>
+            <StyledContactButton onClick={() => navigate('contact')}>Contact</StyledContactButton>
+            <StyledDivider orientation="vertical" flexItem />
+            <StyledIconButton style={{ marginRight: '.5rem' }}>
+              <MenuIcon />
+            </StyledIconButton>
+          </RouteButtons>
+        )}
+        {!isTablet && !isDesktop && (
           <StyledIconButton style={{ marginRight: '.5rem' }}>
-            <SocialMediaContainer href={SNOWPACK_PUBLIC_EMAIL_URL}>
-              <EmailIcon />
-            </SocialMediaContainer>
+            <MenuIcon />
           </StyledIconButton>
-        </RouteButtons>
+        )}
       </StyledAppBar>
     </Slide>
   )
