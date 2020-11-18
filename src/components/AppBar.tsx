@@ -15,6 +15,7 @@ import {
   MuiAppBar,
   Slide,
   SunIcon,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from '@/theme/material'
@@ -133,17 +134,23 @@ export const AppBar: FC = () => {
             <StyledRouteButton onClick={routeToPortfolio}>Portfolio</StyledRouteButton>
             <StyledRouteButton onClick={routeToContact}>Contact</StyledRouteButton>
             <StyledDivider orientation="vertical" flexItem />
-            <StyledIconButton onClick={toggleDark}>{dark ? <MoonIcon /> : <SunIcon />}</StyledIconButton>
-            <StyledIconButton>
-              <SocialMediaContainer href={SNOWPACK_PUBLIC_GITHUB_URL}>
-                <GitHubIcon />
-              </SocialMediaContainer>
-            </StyledIconButton>
-            <StyledIconButton style={{ marginRight: '.5rem' }}>
-              <SocialMediaContainer href={SNOWPACK_PUBLIC_EMAIL_URL}>
-                <EmailIcon />
-              </SocialMediaContainer>
-            </StyledIconButton>
+            <Tooltip title="Toggle theme" aria-label="theme">
+              <StyledIconButton onClick={toggleDark}>{dark ? <MoonIcon /> : <SunIcon />}</StyledIconButton>
+            </Tooltip>
+            <Tooltip title="Visit Github" aria-label="github">
+              <StyledIconButton>
+                <SocialMediaContainer href={SNOWPACK_PUBLIC_GITHUB_URL}>
+                  <GitHubIcon />
+                </SocialMediaContainer>
+              </StyledIconButton>
+            </Tooltip>
+            <Tooltip title="Send email" aria-label="email">
+              <StyledIconButton style={{ marginRight: '.5rem' }}>
+                <SocialMediaContainer href={SNOWPACK_PUBLIC_EMAIL_URL}>
+                  <EmailIcon />
+                </SocialMediaContainer>
+              </StyledIconButton>
+            </Tooltip>
           </RouteButtons>
         )}
         {isTablet && !isDesktop && (
