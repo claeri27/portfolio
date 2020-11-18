@@ -2,7 +2,7 @@ import React, { FC, useLayoutEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { About, Contact, Home, Portfolio } from '@/views'
-import { darkTheme, theme } from '@/theme'
+import { lightTheme, theme } from '@/theme'
 import { CssBaseline, StylesProvider } from '@/theme/material'
 import { AppBar, Footer } from '@/components'
 import { Context } from '@/context'
@@ -10,11 +10,11 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 
 export const App: FC = () => {
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(true)
   const [currentTheme, setCurrentTheme] = useState(theme)
 
   useLayoutEffect(() => {
-    if (dark) setCurrentTheme({ ...currentTheme, ...darkTheme })
+    if (!dark) setCurrentTheme({ ...currentTheme, ...lightTheme })
     else setCurrentTheme(theme)
   }, [dark])
 

@@ -9,6 +9,7 @@ declare module 'styled-components' {
     breakpoints: {
       desktop: string
       tablet: string
+      mobile: string
     }
     height: {
       appBar: string

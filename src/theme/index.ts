@@ -15,10 +15,11 @@ export const darkTheme = {
 }
 
 export const theme: DefaultTheme = {
-  ...lightTheme,
+  ...darkTheme,
   breakpoints: {
     desktop: '(min-width: 750px)',
     tablet: '(min-width: 530px)',
+    mobile: '(min-width: 330px)',
   },
   height: {
     appBar: '3.5rem',

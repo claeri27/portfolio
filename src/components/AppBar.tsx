@@ -10,7 +10,7 @@ import {
   EmailIcon,
   GitHubIcon,
   IconButton,
-  MenuIcon,
+  Link,
   MoonIcon,
   MuiAppBar,
   Slide,
@@ -18,6 +18,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@/theme/material'
+import { Menu } from './Menu'
 const { SNOWPACK_PUBLIC_GITHUB_URL, SNOWPACK_PUBLIC_EMAIL_URL } = import.meta.env
 
 const StyledDivider = styled(Divider)`
@@ -54,38 +55,22 @@ const StyledName = styled(Typography)`
   }
 `
 
-const StyledAboutButton = styled(Button)`
+const StyledRouteButton = styled(Button)`
   color: ${({ theme }) => theme.colors.text};
-  font-size: 0.7rem;
+  font-size: 0.6rem;
+  width: 100%;
+  @media ${({ theme }) => theme.breakpoints.mobile} {
+    font-size: 0.7rem;
+  }
   @media ${({ theme }) => theme.breakpoints.desktop} {
     font-size: 0.85rem;
     padding: 1rem;
   }
 `
 
-const StyledPortfolioButton = styled(Button)`
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 0.7rem;
-  @media ${({ theme }) => theme.breakpoints.desktop} {
-    font-size: 0.85rem;
-    padding: 1rem;
-  }
-`
-
-const StyledContactButton = styled(Button)`
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 0.7rem;
-  @media ${({ theme }) => theme.breakpoints.desktop} {
-    font-size: 0.85rem;
-    padding: 1rem;
-  }
-`
-
-const SocialMediaContainer = styled.a`
+const SocialMediaContainer = styled(Link)`
   color: ${({ theme }) => theme.colors.text};
   display: flex;
-  justify-content: center;
-  align-items: center;
   :hover {
     cursor: pointer;
   }
@@ -103,37 +88,52 @@ const StyledIconButton = styled(IconButton)`
 
 const StyledAvatar = styled(Avatar)`
   background: purple;
-  margin-left: 0.8rem;
   font-family: 'Caveat', cursive;
+  margin-left: 0.8rem;
+  margin-right: 0.4rem;
+  @media ${({ theme }) => theme.breakpoints.mobile} {
+    margin-right: 0.6rem;
+  }
+  @media ${({ theme }) => theme.breakpoints.tablet} {
+    margin-right: 0;
+  }
 `
 
 export const AppBar: FC = () => {
   const [checked, setChecked] = useState(false)
   const { dark, toggleDark } = useContext(Context)
   const { transitions, breakpoints } = useTheme()
+  const navigate = useNavigate()
+
   const isDesktop = useMediaQuery(breakpoints.desktop)
   const isTablet = useMediaQuery(breakpoints.tablet)
-  const navigate = useNavigate()
+  const isMobile = !isTablet && !isDesktop
 
   useEffect(() => {
     const timer = setTimeout(() => setChecked(true), transitions.appBar.in)
     return () => clearTimeout(timer)
   }, [])
 
+  const routeToAbout = () => navigate('about')
+  const routeToPortfolio = () => navigate('portfolio')
+  const routeToContact = () => navigate('contact')
+
   return (
     <Slide in={checked} timeout={transitions.appBar.timeout}>
-      <StyledAppBar position="static">
-        <NameAndLogo onClick={() => navigate('/')}>
-          <StyledAvatar>CL</StyledAvatar>
-          <StyledName>Christopher Laeri</StyledName>
-        </NameAndLogo>
+      <StyledAppBar>
+        {(isTablet || isDesktop) && (
+          <NameAndLogo onClick={() => navigate('/')}>
+            <StyledAvatar>CL</StyledAvatar>
+            <StyledName>Christopher Laeri</StyledName>
+          </NameAndLogo>
+        )}
         {isDesktop && (
           <RouteButtons>
-            <StyledAboutButton onClick={() => navigate('about')}>About</StyledAboutButton>
-            <StyledPortfolioButton onClick={() => navigate('portfolio')}>Portfolio</StyledPortfolioButton>
-            <StyledContactButton onClick={() => navigate('contact')}>Contact</StyledContactButton>
+            <StyledRouteButton onClick={routeToAbout}>About</StyledRouteButton>
+            <StyledRouteButton onClick={routeToPortfolio}>Portfolio</StyledRouteButton>
+            <StyledRouteButton onClick={routeToContact}>Contact</StyledRouteButton>
             <StyledDivider orientation="vertical" flexItem />
-            <StyledIconButton onClick={() => toggleDark()}>{dark ? <MoonIcon /> : <SunIcon />}</StyledIconButton>
+            <StyledIconButton onClick={toggleDark}>{dark ? <MoonIcon /> : <SunIcon />}</StyledIconButton>
             <StyledIconButton>
               <SocialMediaContainer href={SNOWPACK_PUBLIC_GITHUB_URL}>
                 <GitHubIcon />
@@ -148,19 +148,23 @@ export const AppBar: FC = () => {
         )}
         {isTablet && !isDesktop && (
           <RouteButtons>
-            <StyledAboutButton onClick={() => navigate('about')}>About</StyledAboutButton>
-            <StyledPortfolioButton onClick={() => navigate('portfolio')}>Portfolio</StyledPortfolioButton>
-            <StyledContactButton onClick={() => navigate('contact')}>Contact</StyledContactButton>
+            <StyledRouteButton onClick={routeToAbout}>About</StyledRouteButton>
+            <StyledRouteButton onClick={routeToPortfolio}>Portfolio</StyledRouteButton>
+            <StyledRouteButton onClick={routeToContact}>Contact</StyledRouteButton>
             <StyledDivider orientation="vertical" flexItem />
-            <StyledIconButton style={{ marginRight: '.5rem' }}>
-              <MenuIcon />
-            </StyledIconButton>
+            <Menu />
           </RouteButtons>
         )}
-        {!isTablet && !isDesktop && (
-          <StyledIconButton style={{ marginRight: '.5rem' }}>
-            <MenuIcon />
-          </StyledIconButton>
+        {isMobile && (
+          <>
+            <NameAndLogo onClick={() => navigate('/')}>
+              <StyledAvatar>CL</StyledAvatar>
+            </NameAndLogo>
+            <StyledRouteButton onClick={routeToAbout}>About</StyledRouteButton>
+            <StyledRouteButton onClick={routeToPortfolio}>Portfolio</StyledRouteButton>
+            <StyledRouteButton onClick={routeToContact}>Contact</StyledRouteButton>
+            <Menu />
+          </>
         )}
       </StyledAppBar>
     </Slide>
